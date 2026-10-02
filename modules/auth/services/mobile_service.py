@@ -219,7 +219,9 @@ class MobileService:
 
         if not user:
             # Create new user and customer profile
-            user = User(email=email, username=email.split("@")[0], created_at=int(time.time()))
+            import uuid
+            safe_username = f"{email.split('@')[0]}_{uuid.uuid4().hex[:6]}"
+            user = User(email=email, username=safe_username, created_at=int(time.time()))
             self.db.add(user)
             self.db.flush()
 
